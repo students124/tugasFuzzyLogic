@@ -11,7 +11,7 @@ Fuzzy Logic yang dapat memberikan :
 * Penentuan Output Fuzzy set
 
 
-# Anggot Kelompok
+# Anggota Kelompok
 Anggota Kelompok yang terdiri dari:
 * Billy Yuriaan 1303204141
 * Ida bagus Peling Prayoga 1303204114
