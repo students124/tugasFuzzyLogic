@@ -1,4 +1,3 @@
-from cmath import tan
 from faker import Faker
 
 import pandas as pd
