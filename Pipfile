@@ -7,6 +7,7 @@ name = "pypi"
 pandas = "*"
 openpyxl = "*"
 numpy = "*"
+faker = "*"
 
 [dev-packages]
 
@@ -15,4 +16,3 @@ python_version = "3.10"
 
 [scripts]
 start   = "py main.py"
-test    = "py test.py"
