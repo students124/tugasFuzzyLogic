@@ -9,10 +9,21 @@ import uuid
 class DataTable:
 
     def __init__(self):
+        """"Class for create a table to measure a student's reward for scholarship"""
+
+        # create a data variable to store student data
         self.dataMhs : list = []
+
+        # create a object variable to create a fake data from faker module
         self.faker : Faker = Faker("id_ID")
+
+        # create a variable to store a fuuzy base result from dataMhs
         self.dataFuzzy : list = []
+
+        # a variable to store pandas's dataFrame from stundet's data
         self.dataMhsFrame : pd.DataFrame = None
+
+        # a variable to store pandas's dataFrame from stundet's fuzzy logic result
         self.dataFuzzyFrame : pd.DataFrame = None
 
     def generate(self,genNum : int, toDataFrame : bool = False):
@@ -38,6 +49,25 @@ class DataTable:
             self.dataMhsFrame = pd.DataFrame(self.dataMhs, columns=["No", "Nama","ID", "IPK", "Gaji (jt)", "Jumlah Tanggungan Ortu", "Jumlah Saudara kandung"]).set_index("No")
 
         return self.dataMhs
+    
+    def fetchData(self, dirData = None):
+        """"If the data already generate or the data already exist fetch will get the data,
+        an exception is that the data has to be a xlsx or xls data and already fill with column of
+        "No", "Nama","ID", "IPK", "Gaji (jt)", "Jumlah Tanggungan Ortu", "Jumlah Saudara kandung."""
+
+        # check if the user input the directory
+        if dirData == None:
+            # if the user did not input the directory then raise an error
+            raise Exception("Please insert the directory of the data, the data cannot be empty")
+
+        # Read the data
+        self.dataMhsFrame = pd.read_excel(dirData)
+
+        # convert the data into list
+        self.dataMhs = self.dataMhsFrame.values.tolist()
+
+        return self.dataMhs
+
     
     def printDataFrame(self, directory = None):
         try:
@@ -198,11 +228,16 @@ class DataTable:
         
         # if the user set to true the it will be set into pandas data frame
         if toDataFrame:
+            # convert the data into pandas dataFrame
             self.dataFuzzyFrame = pd.DataFrame(self.dataFuzzy, columns=["No", "Nama", "ID", "NK"]).set_index("No").sort_values(['NK'], ascending=False)
+
+            # create a index number based on the data length
             index = np.arange(1,len(self.dataMhsFrame) + 1)
+
+            # change the values of the index
             self.dataFuzzyFrame.index = index
+
+            # change the index's label
             self.dataFuzzyFrame.index.name = "No"
 
-
-        
         return self.dataFuzzy
