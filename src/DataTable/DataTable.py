@@ -1,4 +1,5 @@
 from faker import Faker
+from tqdm import tqdm
 
 import pandas as pd
 import numpy as np
@@ -39,7 +40,7 @@ class DataTable:
         tanggunganAndKandung = np.arange(1,6,1)
 
         # make a loop on base on user input
-        for i in range(genNum):
+        for i in tqdm(range(genNum), desc="Generate Data"):
             # append data from index,name,id,IPK,salary,child,sibling
             self.dataMhs.append([i + 1, self.faker.name(),uuid.uuid4(),np.random.choice(score), np.random.choice(gaji), np.random.choice(tanggunganAndKandung), np.random.choice(tanggunganAndKandung)])
 
@@ -111,7 +112,7 @@ class DataTable:
         kand = 0
 
         # Create a matrix weight on each atribute
-        for idx,val in enumerate(self.dataMhs):
+        for idx,val in enumerate(tqdm(self.dataMhs,desc="Create Matrix weight")):
             tempIPK = 0
             tempGaji = 0
             tempTang = 0
@@ -171,7 +172,7 @@ class DataTable:
         kand = kand / len(self.dataMhs)
         
         # decide on deservve point on each student
-        for idx,val in enumerate(self.dataMhs):
+        for idx,val in enumerate(tqdm(self.dataMhs,desc="Create the final list")):
             tempIPK = 0
             tempGaji = 0
             tempTang = 0
@@ -240,4 +241,4 @@ class DataTable:
             # change the index's label
             self.dataFuzzyFrame.index.name = "No"
 
-        return self.dataFuzzy
+        return self.dataFuzzy    

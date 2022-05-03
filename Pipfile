@@ -8,6 +8,8 @@ pandas = "*"
 openpyxl = "*"
 numpy = "*"
 faker = "*"
+colorama = "*"
+tqdm = "*"
 
 [dev-packages]
 
