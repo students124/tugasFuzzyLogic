@@ -64,8 +64,12 @@ class DataTable:
         # Read the data
         self.dataMhsFrame = pd.read_excel(dirData)
 
-        # convert the data into list
-        self.dataMhs = self.dataMhsFrame.values.tolist()
+        # create a temp data
+        tempData = self.dataMhsFrame.values.tolist()
+
+        # added the progress bar and append the data to the data mhs
+        for i in tqdm(range(len(tempData)), desc="Fetching The Data"):
+            self.dataMhs.append(tempData[i])
 
         return self.dataMhs
 
