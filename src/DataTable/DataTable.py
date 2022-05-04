@@ -53,7 +53,7 @@ class DataTable:
     
     def fetchData(self, dirData = None):
         """"If the data already generate or the data already exist fetch will get the data,
-        an exception is that the data has to be a xlsx or xls data and already fill with column of
+        an exception is that the data has to be a xlsx or csv data and already fill with column of
         "No", "Nama","ID", "IPK", "Gaji (jt)", "Jumlah Tanggungan Ortu", "Jumlah Saudara kandung."""
 
         # check if the user input the directory
@@ -61,18 +61,46 @@ class DataTable:
             # if the user did not input the directory then raise an error
             raise Exception("Please insert the directory of the data, the data cannot be empty")
 
-        # Read the data
-        self.dataMhsFrame = pd.read_excel(dirData)
+        # get the extention and filename
+        file_name, file_ext = os.path.splitext(dirData)
 
-        # create a temp data
-        tempData = self.dataMhsFrame.values.tolist()
+        #create a list of allowed extention
+        allowed_ext = ['.xlsx','.csv']
 
-        # added the progress bar and append the data to the data mhs
-        for i in tqdm(range(len(tempData)), desc="Fetching The Data"):
-            self.dataMhs.append(tempData[i])
+        # check if the extention was the correct one
+        if file_ext in allowed_ext:
+            # read the file base on its extention
+            match file_ext:
+                # case of xlsx
+                case ".xlsx":
+                    # Read the data
+                    self.dataMhsFrame = pd.read_excel(dirData)
 
-        return self.dataMhs
+                    # create a temp data
+                    tempData = self.dataMhsFrame.values.tolist()
 
+                    # added the progress bar and append the data to the data mhs
+                    for i in tqdm(range(len(tempData)), desc="Fetching xlsx Data"):
+                        self.dataMhs.append(tempData[i])
+
+                    return self.dataMhs
+
+                # case of csv
+                case ".csv":
+                    # Read the data
+                    self.dataMhsFrame = pd.read_csv(dirData)
+
+                    # create a temp data
+                    tempData = self.dataMhsFrame.values.tolist()
+
+                    # added the progress bar and append the data to the data mhs
+                    for i in tqdm(range(len(tempData)), desc="Fetching csv Data"):
+                        self.dataMhs.append(tempData[i])
+
+                    return self.dataMhs                    
+        else:
+            # raise an exception if the requirement is not satisfied
+            raise Exception(f"The extention is not allowed, please try again!, the allow extention is {allowed_ext}")
     
     def printDataFrame(self, directory = None):
         try:
